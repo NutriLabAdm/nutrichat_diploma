@@ -1,0 +1,37 @@
+flowchart TD
+    subgraph MAIN["Основной сервис"]
+        direction TB
+        N[nutrichat.ru<br/>Core]
+    end
+
+    B["""bminews<br/>Сайт"""] --> N
+
+    subgraph SUB["Подсервисы"]
+        direction LR
+        F["""food.nutrichat<br/>Анализ еды"""]
+        S["""science.nutrichat<br/>Энциклопедия"""]
+    end
+
+    N --> F
+    N --> S
+
+    subgraph ML["ML/AI Стенд"]
+        A["""aiml.startupassist.ru<br/>AI"""]
+    end
+
+    F --> A
+    S -.->|будущая связь| A
+
+    subgraph EXP["Эксперименты"]
+        R["""r1.nutrichat.ru<br/>A/B, Digital Twin"""]
+    end
+
+    A --> R
+    N --> R
+
+    style B fill:#e3f2fd,stroke:#333
+    style N fill:#e3f2fd,stroke:#333
+    style F fill:#e8f5e9,stroke:#333
+    style S fill:#e8f5e9,stroke:#333
+    style A fill:#e8f5e9,stroke:#333
+    style R fill:#e8f5e9,stroke:#333
