@@ -1,0 +1,154 @@
+@startuml ER_Diagram
+' top to bottom direction
+' left to right direction 
+
+hide stereotype
+
+' ======================
+' 📦 METRICS (СЛЕВА)
+' ======================
+
+package "Metrics" {
+
+  entity "BIOMETRIC_LOGS" {
+    *id <<PK>>
+    *user_id <<FK>>
+    metric_type
+    value
+  }
+
+  entity "BEHAVIORAL_LOGS" {
+    *id <<PK>>
+    *user_id <<FK>>
+    behavior_type
+    value
+  }
+
+  entity "FINANCIAL_LOGS" {
+    *id <<PK>>
+    *user_id <<FK>>
+    category
+    amount
+  }
+
+  ' вертикаль внутри Metrics
+  BIOMETRIC_LOGS -[hidden]down- BEHAVIORAL_LOGS
+  BEHAVIORAL_LOGS -[hidden]down- FINANCIAL_LOGS
+}
+
+' ======================
+' 👤 USERS (ЦЕНТР)
+' ======================
+
+entity "USERS" {
+  *id <<PK>>
+  email
+  name
+}
+
+' ======================
+' 📦 CORE (СПРАВА)
+' ======================
+
+package "Core" {
+
+  entity "PROFILES" {
+    *id <<PK>>
+    *user_id <<FK>>
+    gender
+    height_cm
+  }
+
+  entity "GOALS" {
+    *id <<PK>>
+    *profile_id <<FK>>
+    target_value
+  }
+
+  entity "DIGITAL_TWINS" {
+    *id <<PK>>
+    *user_id <<FK>>
+    twin_data
+  }
+
+  entity "FOOD_ENTRIES" {
+    *id <<PK>>
+    *user_id <<FK>>
+    food_name
+    calories
+  }
+
+  entity "FOOD_PHOTOS" {
+    *id <<PK>>
+    *file_id <<FK>>
+    calories_predicted
+  }
+
+  entity "MEDIA_FILES" {
+    *id <<PK>>
+    *user_id <<FK>>
+    url
+  }
+
+  entity "SUBSCRIPTIONS" {
+    *id <<PK>>
+    *user_id <<FK>>
+    plan
+    status
+  }
+
+  entity "PAYMENTS" {
+    *id <<PK>>
+    *user_id <<FK>>
+    amount
+  }
+
+  entity "EXPERIMENTS" {
+    *id <<PK>>
+    *user_id <<FK>>
+    name
+  }
+
+  ' 🔥 ВЕРТИКАЛЬ CORE (главный фикс)
+  PROFILES       -[hidden]d- GOALS
+  PROFILES       -[hidden]l- DIGITAL_TWINS
+  DIGITAL_TWINS  -[hidden]l- FOOD_ENTRIES
+  
+  FOOD_ENTRIES  -[hidden]r- SUBSCRIPTIONS
+  
+  FOOD_ENTRIES   -[hidden]l- MEDIA_FILES
+  MEDIA_FILES    -[hidden]down- FOOD_PHOTOS
+  GOALS    -[hidden]l- SUBSCRIPTIONS
+  SUBSCRIPTIONS  -[hidden]down- PAYMENTS
+  PROFILES  -[hidden]r- EXPERIMENTS
+}
+
+' ======================
+' 🔥 ГЛОБАЛЬНЫЙ LAYOUT
+' ======================
+
+Metrics -[hidden]right- USERS
+USERS -[hidden]right- Core
+
+' ======================
+' 🔗 СВЯЗИ
+' ======================
+
+USERS ||--o{ BIOMETRIC_LOGS
+USERS ||--o{ BEHAVIORAL_LOGS
+USERS ||--o{ FINANCIAL_LOGS
+
+USERS ||--o{ PROFILES
+USERS ||--o{ DIGITAL_TWINS
+USERS ||--o{ FOOD_ENTRIES
+USERS ||--o{ MEDIA_FILES
+USERS ||--o{ SUBSCRIPTIONS
+USERS ||--o{ PAYMENTS
+DIGITAL_TWINS ||--o{ EXPERIMENTS
+
+PROFILES ||--o{ GOALS
+FOOD_ENTRIES ||--o{ FOOD_PHOTOS
+MEDIA_FILES ||--o{ FOOD_PHOTOS
+SUBSCRIPTIONS ||--o{ PAYMENTS
+
+@enduml

@@ -1,0 +1,8 @@
+@startuml
+left to right direction
+entity "USERS" {
+  *id
+  name
+}
+USERS }|--|| PROFILES
+@enduml
