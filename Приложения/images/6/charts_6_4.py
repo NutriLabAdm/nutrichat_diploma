@@ -40,11 +40,11 @@ values = [15, 45, 25, 10, 20]
 
 angles = np.linspace(0, 2*np.pi, len(categories), endpoint=False).tolist()
 angles = angles + [angles[0]]
-values = values + [values[0]]
+values_plot = values + [values[0]]
 
 ax2 = plt.subplot(1, 2, 2, projection='polar')
-ax2.plot(angles, values, 'o-', linewidth=2, color='#2196F3')
-ax2.fill(angles, values, alpha=0.25, color='#2196F3')
+ax2.plot(angles, values_plot, 'o-', linewidth=2, color='#2196F3')
+ax2.fill(angles, values_plot, alpha=0.25, color='#2196F3')
 ax2.set_xticks(angles[:-1])
 ax2.set_xticklabels(categories, fontsize=10)
 ax2.set_title('Sensitivity Analysis\n(Impact on ROI, %)', fontsize=12, fontweight='bold', pad=20)
@@ -52,7 +52,7 @@ ax2.set_title('Sensitivity Analysis\n(Impact on ROI, %)', fontsize=12, fontweigh
 plt.tight_layout()
 output_path = 'E:/_dev/25.mipt/diploma/docs/05_Черновики_диплома/ver0.4/Приложения/images/6/'
 os.makedirs(output_path, exist_ok=True)
-plt.savefig(output_path + '6.4_sensitivity_monte_carlo.png', dpi=150, bbox_inches='tight')
+plt.savefig(output_path + '6.4_sensitivity_monte_carlo.png', dpi=150, bbox_inches='tight', facecolor='white')
 plt.savefig(output_path + '6.4_sensitivity_monte_carlo.svg', bbox_inches='tight')
 print(f'Saved: {output_path}6.4_sensitivity_monte_carlo.png')
 print(f'Saved: {output_path}6.4_sensitivity_monte_carlo.svg')
